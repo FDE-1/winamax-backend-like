@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - app-network
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3005:3000"
+    networks:
+      - app-network
+    volumes:
+      - grafana-data:/var/lib/grafana
+
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
+
+volumes:
+  grafana-data:
